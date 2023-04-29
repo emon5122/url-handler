@@ -352,10 +352,10 @@
     prop-types "^15.8.1"
     react-is "^18.2.0"
 
-"@next-auth/prisma-adapter@^0.4.4-canary.81":
-  version "0.4.4-canary.81"
-  resolved "https://registry.yarnpkg.com/@next-auth/prisma-adapter/-/prisma-adapter-0.4.4-canary.81.tgz#60620d750ef1926f6e74b2de4d05a57eb9838105"
-  integrity sha512-RXdjrRkK4A3ksMdGXIyDmYBcgdpmbVqSGDoaH2X7P/MLBngh3/GO8TFGpiLwiUt1o4+Py81KICZYvBgatRP+Ew==
+"@next-auth/prisma-adapter@^0.5.0":
+  version "0.5.4"
+  resolved "https://registry.yarnpkg.com/@next-auth/prisma-adapter/-/prisma-adapter-0.5.4.tgz#af787a6a49ee9b9e38cedec761c9b7ab4cd99153"
+  integrity sha512-e3rIRNc/1A8puvzxVdlPOaV1NjAWIil2aE+kr51MHmg9uCrvJWf8ruNvLPU3I0QG187AG4i5eePXHkXEbgordQ==
 
 "@next/env@13.3.1":
   version "13.3.1"
