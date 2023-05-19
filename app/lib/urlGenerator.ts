@@ -8,7 +8,13 @@ const googleDrivePattern =
 const dropboxPattern = /(?:https?:\/\/)?(?:www\.)?dropbox\.com\/(?:.+)\/(.+)/;
 const megaPattern = /mega\.nz\/(#!|file\/|)[!a-zA-Z0-9_-]{8,}$/;
 
-export async function urlGenerator(url, session) {
+export async function urlGenerator(url:string, session:{
+    user: {
+        id: string
+        email: string
+    }
+
+} | null) {
     let newUrl = url;
     if (googleDrivePattern.test(url)) {
         newUrl = url.replace(/file\/d\/(.+?)\/.*$/, "uc?id=$1&export=download");
@@ -34,11 +40,11 @@ export async function urlGenerator(url, session) {
         });
         process.env.NODE_ENV === "production" &&
             session &&
-            (await sendEmail(
-                session.user.email,
-                "Your have shortened a new URL",
-                `${process.env.NEXTAUTH_URL}/d/${result.generatedUrl}`
-            ));
+            (await sendEmail({
+                to: session.user.email,
+                subject: "Your have shortened a new URL",
+                url: `${process.env.NEXTAUTH_URL}/d/${result.generatedUrl}`,
+            }));
 
         return result.generatedUrl;
     } catch (error) {

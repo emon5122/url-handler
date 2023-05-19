@@ -1,6 +1,10 @@
 import nodemailer from "nodemailer";
-
-const sendEmail = async (to, subject, url) => {
+interface Props{
+  to: string
+  subject: string
+  url: string
+}
+const sendEmail = async ({ to, subject, url }: Props) => {
     try {
         const AWS = await import("aws-sdk");
 

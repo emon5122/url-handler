@@ -1,7 +1,7 @@
 import { kv } from "@vercel/kv";
 import prisma from "@/app/lib/prismaClient";
 
-export default async function UrlDownloader(id) {
+export default async function UrlDownloader(id:string):Promise<string | null>{
     try {
         let data = await kv.get(id);
         if (!data) {
@@ -21,10 +21,10 @@ export default async function UrlDownloader(id) {
                 data = null;
             }
         }
-        return data;
+        return data as string | null;
     } catch (error) {
         console.error("Error retrieving data:", error);
-        return { error: "An error occurred" };
+        return null
     } finally {
         await prisma.$disconnect();
     }

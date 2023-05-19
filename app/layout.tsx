@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import Header from "./header";
 import Link from "next/link";
 import Provider from "./provider";
-
+import { ReactNode } from "react";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -11,10 +11,11 @@ export const metadata = {
     description: "Shorten your URLs with this service",
 };
 
-export default function RootLayout({ children }) {
+export default function RootLayout({ children }: { children: ReactNode }) {
     return (
         <html lang="en">
             <body className={`${inter.className}`}>
+                {/* @ts-expect-error Async Server Component */}
                 <Header />
                 <Provider>
                     <div className="flex mt-24 px-12">{children}</div>

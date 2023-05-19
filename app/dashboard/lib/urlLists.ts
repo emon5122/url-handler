@@ -1,6 +1,6 @@
 import prisma from "@/app/lib/prismaClient";
 
-export const urlList = async ({ id }) => {
+export const urlList = async ({ id }: { id: string }) => {
     try {
         return await prisma.url.findMany({
             where: {
@@ -12,7 +12,7 @@ export const urlList = async ({ id }) => {
     }
 };
 
-export const urlCount = async ({ id }) => {
+export const urlCount = async ({ id }: { id: string }) => {
     try {
         return await prisma.url.count({
             where: {

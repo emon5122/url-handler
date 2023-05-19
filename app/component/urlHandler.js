@@ -2,7 +2,6 @@
 import { useState } from "react";
 import Image from "next/image";
 import { urlGenerator } from "@/app/lib/urlGenerator";
-import { revalidatePath } from "next/cache";
 
 export default function UrlHandler({ session }) {
     const fullURLClientSide =
@@ -48,7 +47,6 @@ export default function UrlHandler({ session }) {
                             copyUrl(newUrl);
                             setGenLink(newUrl);
                             setLink("");
-                            revalidatePath("dashboard");
                         }}
                     >
                         Generate Short URL

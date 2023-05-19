@@ -3,13 +3,14 @@ import { urlCount, urlList } from "./lib/urlLists";
 import { getServerSession } from "next-auth";
 import Link from "next/link";
 
+
 export default async function Dashboard() {
     const { user } = await getServerSession(authOptions);
     const urls = await urlList(user);
     const totalUrl = await urlCount(user);
     return (
-      <div className="flex flex-col pb-10">
-      <p>{"You have " + totalUrl + " urls"}</p>
+      <div className="flex flex-col">
+      <p className=" pb-10">{"You have " + totalUrl + " urls"}</p>
         <div className="overflow-x-auto">
             <table className="table w-full">
                 <thead>
@@ -30,7 +31,7 @@ export default async function Dashboard() {
                                     target="_blank"
                                 >{`${process.env.NEXTAUTH_URL}/d/${url.generatedUrl}`}</Link>
                             </td>
-                            <td>{url.givenUrl}</td>
+                            <td><Link href={url.givenUrl} target="_blank">{url.givenUrl}</Link></td>
                             <td>{url.createdAt.toString()}</td>
                         </tr>
                     ))}
