@@ -4,17 +4,16 @@ import GitHubProvider from "next-auth/providers/github";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import prisma from "@/app/lib/prismaClient";
 
-// export const authOptions:NextAuthOptions = {
-export const authOptions = {
+export const authOptions: NextAuthOptions = {
     adapter: PrismaAdapter(prisma),
     providers: [
         GoogleProvider({
-            clientId: process.env.GOOGLE_CLIENT_ID,
-            clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+            clientId: process.env.GOOGLE_CLIENT_ID as string,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
         }),
         GitHubProvider({
-            clientId: process.env.GITHUB_CLIENT_ID,
-            clientSecret: process.env.GITHUB_CLIENT_SECRET,
+            clientId: process.env.GITHUB_CLIENT_ID as string,
+            clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
         }),
     ],
     callbacks: {
@@ -44,16 +43,16 @@ export const authOptions = {
             return token;
         },
         async session({ session, token }) {
-            session.user.id = token.id;
-            session.user.name = token.name;
-            session.user.email = token.email;
-            session.user.image = token.image;
-            session.user.role = token.role;
+            session.user.id = token.id as string;
+            session.user.name = token.name as string;
+            session.user.email = token.email as string;
+            session.user.image = token.image as string
+            session.user.role = token.role as string;
             return session;
         },
     },
     session: {
-        strategy: "jwt",
+        strategy: "jwt"
     },
 };
 const handler = NextAuth(authOptions);
