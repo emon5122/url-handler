@@ -3,10 +3,10 @@ import { getServerSession } from "next-auth";
 import Image from "next/image";
 import logo from "../public/logo.png";
 import ThemeChanger from "./component/themeChange";
+import { authOptions } from "./api/auth/[...nextauth]/route";
 
 export default async function Header() {
-    const session = await getServerSession();
-
+    const session = await getServerSession(authOptions);
     const LoginHandler = () => {
         if (session?.user?.email) {
             return (
