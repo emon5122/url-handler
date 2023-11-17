@@ -1,21 +1,20 @@
 "use client";
-import Link from "next/link";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Suspense } from "react";
-import axios from "axios";
-import { useToast } from "@/components/ui/use-toast";
+import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
     Table,
     TableBody,
-    TableCaption,
     TableCell,
     TableHead,
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
+import { useToast } from "@/components/ui/use-toast";
 import { baseUrl } from "@/lib/utils";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
+import Link from "next/link";
+import { Suspense } from "react";
 
 type Url = {
     id: string;
@@ -42,7 +41,7 @@ const Dashboard = () => {
             return await axios.delete(`/api/url/${id}`);
         },
         onSuccess: () => {
-            queryClient.invalidateQueries(["url"]);
+            queryClient.invalidateQueries({ queryKey: ["url"] });
             toast({ title: "Success", description: "URL deleted" });
         },
     });
@@ -133,9 +132,9 @@ const Dashboard = () => {
                                     <TableCell>
                                         <Link
                                             onClick={() => {
-                                                queryClient.invalidateQueries([
-                                                    "url",
-                                                ]);
+                                                queryClient.invalidateQueries({
+                                                    queryKey: ["url"],
+                                                });
                                             }}
                                             href={`/d/${generatedUrl}`}
                                             target="_blank"
@@ -146,9 +145,9 @@ const Dashboard = () => {
                                     <TableCell>
                                         <Link
                                             onClick={() => {
-                                                queryClient.invalidateQueries([
-                                                    "url",
-                                                ]);
+                                                queryClient.invalidateQueries({
+                                                    queryKey: ["url"],
+                                                });
                                             }}
                                             href={`/d/${generatedUrl}`}
                                             target="_blank"

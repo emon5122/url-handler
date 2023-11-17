@@ -1,10 +1,4 @@
 "use client";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
 import { Button } from "@/components/ui/button";
 import {
     Form,
@@ -14,8 +8,14 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { CopyIcon } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
+import { CopyIcon } from "lucide-react";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 const Home = () => {
     const [genLink, setGenLink] = useState("");
@@ -28,7 +28,7 @@ const Home = () => {
         },
         mutationKey: ["url"],
         onSuccess: () => {
-            queryClient.invalidateQueries(["url"]);
+            queryClient.invalidateQueries({ queryKey: ["url"] });
             toast({
                 title: "URL Shortened",
                 description: "success",
