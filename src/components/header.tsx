@@ -1,18 +1,18 @@
 "use client";
-import Link from "next/link";
-import Image from "next/image";
 import ModeToggle from "@/components/theme-toggle";
+import { Avatar } from "@/components/ui/avatar";
+import { useQuery } from "@tanstack/react-query";
 import { LayoutDashboardIcon, LogInIcon, LogOutIcon } from "lucide-react";
 import { getSession } from "next-auth/react";
-import { useQuery } from "@tanstack/react-query";
-import { Avatar } from "@/components/ui/avatar";
+import Image from "next/image";
+import Link from "next/link";
+import { Button } from "./ui/button";
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import { Button } from "./ui/button";
 import { Skeleton } from "./ui/skeleton";
 
 const Header = () => {
@@ -42,7 +42,6 @@ const Header = () => {
                     className="flex flex-row justify-around"
                 >
                     <LogInIcon />
-                    <span>Login</span>
                 </Link>
             );
         }

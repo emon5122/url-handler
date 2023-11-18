@@ -1,4 +1,5 @@
 "use server";
+import { baseUrl } from "@/lib/utils";
 import { notFound, redirect } from "next/navigation";
 
 const FileDownloader = async ({
@@ -6,10 +7,8 @@ const FileDownloader = async ({
 }: {
     params: { id: string };
 }) => {
-    console.log("res", "-----------------");
-    const res = await fetch(`/api/url/${id}`);
-    const link = await res.json();
-    console.log(link, "-----------------");
+    const res = await fetch(`${baseUrl}/api/url/${id}`);
+    const link = (await res.json()) as string;
     if (link) {
         redirect(link);
     } else {
