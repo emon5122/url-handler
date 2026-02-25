@@ -22,9 +22,7 @@ export const GET = async (req: NextRequest, { params }: ParamsType) => {
                 },
             });
         } catch (error) {
-            console.log(error);
-        } finally {
-            await prisma.$disconnect();
+            console.error("updateClick error:", error);
         }
     };
     try {
@@ -45,9 +43,8 @@ export const GET = async (req: NextRequest, { params }: ParamsType) => {
             return NextResponse.json({ msg: "Not Found" }, { status: 404 });
         }
     } catch (error) {
-        return NextResponse.error();
-    } finally {
-        await prisma.$disconnect();
+        console.error("GET /api/url/[id] error:", error);
+        return NextResponse.json({ msg: "Internal Server Error" }, { status: 500 });
     }
 };
 
@@ -67,10 +64,8 @@ export const DELETE = async (req: NextRequest, { params }: ParamsType) => {
         });
         return NextResponse.json({ status: "ok" });
     } catch (error) {
-        console.log(error);
-        return NextResponse.error();
-    } finally {
-        await prisma.$disconnect();
+        console.error("DELETE /api/url/[id] error:", error);
+        return NextResponse.json({ msg: "Internal Server Error" }, { status: 500 });
     }
 };
 

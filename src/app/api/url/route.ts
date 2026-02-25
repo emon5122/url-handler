@@ -1,9 +1,9 @@
-import { NextRequest, NextResponse } from "next/server";
-import { getToken } from "next-auth/jwt";
+import sendEmail from "@/lib/emailSender";
 import { prisma } from "@/lib/prismaClient";
-import sendEmail  from "@/lib/emailSender";
-import { z } from "zod";
 import { baseUrl } from "@/lib/utils";
+import { getToken } from "next-auth/jwt";
+import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
 
 export const GET = async (req: NextRequest) => {
     const session = await getToken({ req });
@@ -24,16 +24,15 @@ export const GET = async (req: NextRequest) => {
         const payload = { allUrls: data, count: count };
         return NextResponse.json(payload, { status: 200 });
     } catch (error) {
-        return NextResponse.error();
-    } finally {
-        await prisma.$disconnect();
+        console.error("GET /api/url error:", error);
+        return NextResponse.json({ msg: "Internal Server Error" }, { status: 500 });
     }
 };
 
 export const POST = async (req: NextRequest) => {
     const session = await getToken({ req });
     const body = await req.json()
-    const {url}=z.object({url:z.string()}).parse(body)
+    const { url } = z.object({ url: z.string() }).parse(body)
     const pattern = /^(https?:\/\/)?([\w.-]+)\.([a-zA-Z]{2,6})(\/[\w.-]*)*\/?$/;
     const googleDrivePattern =
         /(?:https?:\/\/)?(?:drive\.google\.com\/(?:file\/d\/|open\?id=)|docs\.google\.com\/(?:uc\?id=|file\/d\/))(.*?)(?:\/.+)?(?:\?|$)/;
@@ -72,7 +71,7 @@ export const POST = async (req: NextRequest) => {
                 givenUrl: newUrl,
                 generatedUrl: generateShortUrl(),
                 createdById: session?.sub
-            },select:{generatedUrl:true}
+            }, select: { generatedUrl: true }
         });
         process.env.NODE_ENV === "production" &&
             (await sendEmail(
@@ -82,9 +81,8 @@ export const POST = async (req: NextRequest) => {
             ));
         return NextResponse.json(`${baseUrl}/d/${result.generatedUrl}`, { status: 200 });
     } catch (error) {
-        NextResponse.json({ msg: "Invalid URL" }, { status: 404 });
-    } finally {
-        await prisma.$disconnect();
+        console.error("POST /api/url error:", error);
+        return NextResponse.json({ msg: "Invalid URL" }, { status: 500 });
     }
 };
 
