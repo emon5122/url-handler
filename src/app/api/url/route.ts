@@ -1,4 +1,3 @@
-import sendEmail from "@/lib/emailSender";
 import { prisma } from "@/lib/prismaClient";
 import { baseUrl } from "@/lib/utils";
 import { getToken } from "next-auth/jwt";
@@ -73,12 +72,6 @@ export const POST = async (req: NextRequest) => {
                 createdById: session?.sub
             }, select: { generatedUrl: true }
         });
-        process.env.NODE_ENV === "production" &&
-            (await sendEmail(
-                session?.email as string,
-                "Your have shortened a new URL",
-                `${baseUrl}/d/${result.generatedUrl}`
-            ));
         return NextResponse.json(`${baseUrl}/d/${result.generatedUrl}`, { status: 200 });
     } catch (error) {
         console.error("POST /api/url error:", error);
