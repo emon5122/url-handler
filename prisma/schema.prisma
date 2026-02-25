@@ -1,26 +1,25 @@
 generator client {
-  provider = "prisma-client-js"
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
 }
 
 datasource db {
-  provider          = "postgresql"
-  url               = env("POSTGRES_PRISMA_URL")
-  directUrl         = env("POSTGRES_URL_NON_POOLING")
+  provider = "postgresql"
 }
 
 model Account {
-  id                 String  @id @default(cuid())
-  userId             String
-  type               String
-  provider           String
-  providerAccountId  String
-  refresh_token      String?  @db.Text
-  access_token       String?  @db.Text
-  expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String?  @db.Text
-  session_state      String?
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -34,10 +33,12 @@ model Session {
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
+
 enum UserRole {
   ADMIN
   USER
 }
+
 model User {
   id            String    @id @default(cuid())
   name          String?
@@ -46,8 +47,8 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
-  urls          Url[]              @relation("UrlCreatedByUser")
-  role UserRole @default(USER)
+  urls          Url[]     @relation("UrlCreatedByUser")
+  role          UserRole  @default(USER)
 }
 
 model VerificationToken {
@@ -59,19 +60,20 @@ model VerificationToken {
 }
 
 enum UrlType {
-PUBLIC
-PRIVATE
+  PUBLIC
+  PRIVATE
 }
+
 model Url {
-  id           String   @id @default(cuid())
-  givenUrl     String 
-  generatedUrl String?  @unique
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  createdById  String?
-  createdBy    User?    @relation("UrlCreatedByUser",fields: [createdById], references: [id], onDelete: Cascade)
-  lastAccessedAt DateTime?
-  openedCount Int @default(0)
-  type UrlType @default(PUBLIC)
+  id              String    @id @default(cuid())
+  givenUrl        String
+  generatedUrl    String?   @unique
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  createdById     String?
+  createdBy       User?     @relation("UrlCreatedByUser", fields: [createdById], references: [id], onDelete: Cascade)
+  lastAccessedAt  DateTime?
+  openedCount     Int       @default(0)
+  type            UrlType   @default(PUBLIC)
   sharedWithEmail String[]
 }

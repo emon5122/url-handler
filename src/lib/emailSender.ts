@@ -1,22 +1,22 @@
 import nodemailer from "nodemailer";
 
 const sendEmail = async (to: string, subject: string, url: string) => {
-    try {
-        const AWS = await import("aws-sdk");
-        AWS.config.update({
-            accessKeyId: process.env.AWS_SES_ACCESS_KEY_ID,
-            secretAccessKey: process.env.AWS_SES_SECRET_ACCESS_KEY,
-            region: process.env.AWS_SES_REGION_NAME,
-        });
-        const ses = new AWS.SES({ apiVersion: "2010-12-01" });
-        const transporter = nodemailer.createTransport({
-            SES: ses,
-        });
-        const mailOptions = {
-            from: process.env.FROM_EMAIL,
-            to,
-            subject,
-            html: `
+  try {
+    const AWS = await import("aws-sdk");
+    AWS.config.update({
+      accessKeyId: process.env.AWS_SES_ACCESS_KEY_ID,
+      secretAccessKey: process.env.AWS_SES_SECRET_ACCESS_KEY,
+      region: process.env.AWS_SES_REGION_NAME,
+    });
+    const ses = new AWS.SES({ apiVersion: "2010-12-01" });
+    const transporter = nodemailer.createTransport({
+      SES: ses,
+    } as any);
+    const mailOptions = {
+      from: process.env.FROM_EMAIL,
+      to,
+      subject,
+      html: `
         <html>
           <head>
             <style>
@@ -53,12 +53,12 @@ const sendEmail = async (to: string, subject: string, url: string) => {
           </body>
         </html>
       `,
-        };
+    };
 
-        const info = await transporter.sendMail(mailOptions);
-        console.log("Email sent:", info.messageId);
-    } catch (error) {
-        console.error("Error sending email:", error);
-    }
+    const info = await transporter.sendMail(mailOptions);
+    console.log("Email sent:", info.messageId);
+  } catch (error) {
+    console.error("Error sending email:", error);
+  }
 };
 export default sendEmail;

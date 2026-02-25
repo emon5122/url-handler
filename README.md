@@ -1,36 +1,151 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<p align="center">
+  <img src="public/logo.svg" width="80" alt="Sniprl logo" />
+</p>
+
+<h1 align="center">Sniprl</h1>
+
+<p align="center">
+  <strong>Open-source URL shortener — shorten, share &amp; track links instantly.</strong>
+</p>
+
+<p align="center">
+  <a href="https://url.nexisltd.com">Live Demo</a> · <a href="#getting-started">Getting Started</a> · <a href="CONTRIBUTING.md">Contributing</a> · <a href="LICENSE">License</a>
+</p>
+
+---
+
+## Features
+
+- **Instant shortening** — paste a URL, get a short link in milliseconds
+- **Click analytics** — real-time view count tracking on every link
+- **Smart downloads** — auto-converts Google Drive, Dropbox & Mega links to direct downloads
+- **Dashboard** — manage, inspect & delete all your links in one place
+- **OAuth sign-in** — Google & GitHub authentication via NextAuth.js
+- **SEO ready** — Open Graph, JSON-LD, sitemap, and `robots.txt` out of the box
+- **Responsive** — fully mobile-first design with Tailwind CSS v4
+
+## Tech Stack
+
+| Layer | Tech |
+|---|---|
+| Framework | [Next.js 16](https://nextjs.org) (App Router, Turbopack) |
+| Language | [TypeScript 5.9](https://www.typescriptlang.org) |
+| UI | [Tailwind CSS 4](https://tailwindcss.com) · [shadcn/ui](https://ui.shadcn.com) · [Framer Motion](https://www.framer.com/motion) |
+| Database | PostgreSQL via [Prisma 7](https://www.prisma.io) (with `@prisma/adapter-pg`) |
+| Auth | [NextAuth.js 4](https://next-auth.js.org) (Google + GitHub providers) |
+| Data fetching | [TanStack Query 5](https://tanstack.com/query) · [Axios](https://axios-http.com) |
+| Hosting | [Vercel](https://vercel.com) |
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- **Node.js** ≥ 20.19
+- **pnpm** (recommended) or npm/yarn
+- **PostgreSQL** database (e.g. [Neon](https://neon.tech), [Supabase](https://supabase.com), or local)
+
+### 1. Clone the repo
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+git clone https://github.com/emon5122/url-handler.git
+cd url-handler
+```
+
+### 2. Install dependencies
+
+```bash
+pnpm install
+```
+
+### 3. Configure environment variables
+
+Create a `.env` file at the project root:
+
+```env
+# Database
+POSTGRES_PRISMA_URL="postgresql://user:password@host:5432/dbname"
+
+# NextAuth
+NEXTAUTH_URL="http://localhost:3000"
+NEXTAUTH_SECRET="your-random-secret"
+
+# OAuth — Google
+GOOGLE_CLIENT_ID=""
+GOOGLE_CLIENT_SECRET=""
+
+# OAuth — GitHub
+GITHUB_CLIENT_ID=""
+GITHUB_CLIENT_SECRET=""
+```
+
+### 4. Generate Prisma client & run migrations
+
+```bash
+npx prisma generate
+npx prisma migrate deploy
+```
+
+### 5. Start the dev server
+
+```bash
 pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## Project Structure
 
-[http://localhost:3000/api/hello](http://localhost:3000/api/hello) is an endpoint that uses [Route Handlers](https://beta.nextjs.org/docs/routing/route-handlers). This endpoint can be edited in `app/api/hello/route.js`.
+```
+├── prisma/                 # Prisma schema & migrations
+├── prisma.config.ts        # Prisma 7 config (datasource URL)
+├── public/                 # Static assets (logo, favicon, robots.txt)
+├── src/
+│   ├── app/                # Next.js App Router pages & API routes
+│   │   ├── api/            # REST endpoints (url CRUD, auth)
+│   │   ├── dashboard/      # User dashboard
+│   │   ├── d/[id]/         # Redirect handler
+│   │   ├── privacy/        # Privacy policy
+│   │   └── terms/          # Terms of service
+│   ├── components/         # React components (header, footer, ui/)
+│   ├── context/            # Providers (auth, query)
+│   ├── generated/          # Prisma generated client (git-ignored)
+│   ├── lib/                # Utilities (prisma client, email, utils)
+│   └── types/              # TypeScript type definitions
+├── tailwind.config.js
+├── tsconfig.json
+└── package.json
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Scripts
 
-## Learn More
+| Command | Description |
+|---|---|
+| `pnpm dev` | Start dev server with hot reload |
+| `pnpm build` | Generate Prisma client & production build |
+| `pnpm start` | Serve the production build |
+| `pnpm lint` | Run ESLint |
+| `pnpm prisma:generate` | Regenerate Prisma client |
 
-To learn more about Next.js, take a look at the following resources:
+## Deployment
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The project is configured for **Vercel** out of the box. The `vercel-build` script runs Prisma generate, applies migrations, and builds the app.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Set the environment variables listed above in your Vercel project settings.
 
-## Deploy on Vercel
+## Contributing
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) before submitting a pull request.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Security
+
+If you discover a vulnerability, please see [SECURITY.md](SECURITY.md) for responsible disclosure instructions.
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
+
+---
+
+<p align="center">
+  Built by <a href="https://nexisltd.com">Nexis LTD</a>
+</p>

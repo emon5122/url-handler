@@ -1,0 +1,15 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /dashboard
+Disallow: /auth/
+
+# Search engine specific
+User-agent: Googlebot
+Allow: /
+Disallow: /api/
+Disallow: /dashboard
+Disallow: /auth/
+
+Sitemap: https://url.nexisltd.com/sitemap.xml

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6366f1"/>
+      <stop offset="100%" style="stop-color:#8b5cf6"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
+  <!-- Chain link icon stylized as "S" path -->
+  <g transform="translate(256,256)" stroke="white" stroke-width="36" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <!-- Top link -->
+    <path d="M-30,-120 L30,-120 A60,60 0 0 1 30,0 L-10,0"/>
+    <!-- Bottom link -->
+    <path d="M30,120 L-30,120 A60,60 0 0 1 -30,0 L10,0"/>
+    <!-- Lightning bolt accent -->
+    <path d="M10,-45 L-15,10 L15,10 L-10,55" stroke="white" stroke-width="28" fill="none"/>
+  </g>
+</svg>

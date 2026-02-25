@@ -5,7 +5,8 @@ import { type NextRequest, NextResponse } from "next/server";
 
 
 export const GET = async (req: NextRequest, { params }: ParamsType) => {
-    const updateClick = async (id:string) => {
+    const { id: paramId } = await params;
+    const updateClick = async (id: string) => {
         try {
             return await prisma.url.update({
                 where: {
@@ -29,7 +30,7 @@ export const GET = async (req: NextRequest, { params }: ParamsType) => {
     try {
         const data = await prisma.url.findUnique({
             where: {
-                generatedUrl: params.id,
+                generatedUrl: paramId,
             },
             select: {
                 givenUrl: true,
@@ -39,9 +40,9 @@ export const GET = async (req: NextRequest, { params }: ParamsType) => {
         if (data?.givenUrl) {
             const { givenUrl } = data;
             await updateClick(data?.id);
-            return NextResponse.json(givenUrl,{status: 200});
+            return NextResponse.json(givenUrl, { status: 200 });
         } else {
-            return NextResponse.json({msg: "Not Found"},{status: 404});
+            return NextResponse.json({ msg: "Not Found" }, { status: 404 });
         }
     } catch (error) {
         return NextResponse.error();
@@ -52,6 +53,7 @@ export const GET = async (req: NextRequest, { params }: ParamsType) => {
 
 
 export const DELETE = async (req: NextRequest, { params }: ParamsType) => {
+    const { id: paramId } = await params;
     const session = await getToken({ req });
     if (!session) {
         return NextResponse.json("Unauthorized", { status: 404 });
@@ -59,8 +61,8 @@ export const DELETE = async (req: NextRequest, { params }: ParamsType) => {
     try {
         await prisma.url.delete({
             where: {
-                id: params.id,
-                createdById:session.sub
+                id: paramId,
+                createdById: session.sub
             },
         });
         return NextResponse.json({ status: "ok" });
